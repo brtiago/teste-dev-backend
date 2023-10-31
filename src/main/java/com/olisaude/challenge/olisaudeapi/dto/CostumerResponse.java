@@ -1,8 +1,7 @@
 package com.olisaude.challenge.olisaudeapi.dto;
 
+import com.olisaude.challenge.olisaudeapi.model.Costumer;
 import com.olisaude.challenge.olisaudeapi.model.CostumerGender;
-import com.olisaude.challenge.olisaudeapi.model.HealthProblemDegree;
-import jakarta.validation.constraints.NotBlank;
 
 public record CostumerResponse(
         Long id,
@@ -10,6 +9,16 @@ public record CostumerResponse(
         String birthDate,
         CostumerGender gender,
         String healthProblems,
-        HealthProblemDegree degree
+        String degree
 ) {
+
+    public CostumerResponse(Costumer costumer) {
+        this(   costumer.getId(),
+                costumer.getName(),
+                costumer.getBirthDate(),
+                costumer.getGender(),
+                String.valueOf(costumer.getHealthProblem()),
+                costumer.getHealthProblem().getDegree()
+        );
+    }
 }
