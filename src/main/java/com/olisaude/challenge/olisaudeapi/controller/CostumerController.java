@@ -1,15 +1,29 @@
 package com.olisaude.challenge.olisaudeapi.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.olisaude.challenge.olisaudeapi.dto.CostumerRequest;
+import com.olisaude.challenge.olisaudeapi.dto.CostumerResponse;
+import com.olisaude.challenge.olisaudeapi.model.Costumer;
+import com.olisaude.challenge.olisaudeapi.service.CostumerService;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/costumer")
 public class CostumerController {
-    @GetMapping
-    public String olaMundo(){
-        return "Hello World Spring!";
+
+    @Autowired
+    private CostumerService cs;
+
+    @Transactional
+    @PostMapping
+    public ResponseEntity<CostumerResponse> create (@RequestBody CostumerRequest request) throws Exception {
+        Costumer costumer = cs.createCostumer(request);
+        CostumerResponse response = new CostumerResponse(costumer);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
 }
 
