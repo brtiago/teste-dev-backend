@@ -15,10 +15,12 @@ public record CostumerResponse(
     public CostumerResponse(Costumer costumer) {
         this(   costumer.getId(),
                 costumer.getName(),
-                costumer.getBirthDate(),
+                String.valueOf(costumer.getBirthDate()),
                 costumer.getGender(),
-                String.valueOf(costumer.getHealthProblem()),
+                costumer.getHealthProblem().getName(),
                 costumer.getHealthProblem().getDegree()
         );
     }
+
+
 }
