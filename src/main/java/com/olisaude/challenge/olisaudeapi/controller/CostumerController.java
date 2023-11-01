@@ -10,6 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/costumer")
 public class CostumerController {
@@ -23,6 +26,28 @@ public class CostumerController {
         Costumer costumer = cs.createCostumer(request);
         CostumerResponse response = new CostumerResponse(costumer);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CostumerResponse>> listAll() {
+        List<CostumerResponse> costumerResponses = cs.listAll()
+                .stream()
+                .map(costumer -> new CostumerResponse(costumer))
+                .collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.OK).body(costumerResponses);
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity deleteCostumer(@PathVariable Long id){
+        cs.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Transactional
+    @PutMapping
+    public ResponseEntity updateCostumer(@RequestBody CostumerRequest request){
+        return cs.updateCostumer(request);
     }
 
 }
