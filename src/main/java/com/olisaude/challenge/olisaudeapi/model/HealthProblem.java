@@ -6,6 +6,7 @@ import lombok.*;
 @Entity
 @Table(name = "health_problems")
 
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -28,14 +29,5 @@ public class HealthProblem {
 
     public void delete() {
         this.active = false;
-    }
-
-    @Override
-    public String toString() {
-        return "HealthProblem{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", degree='" + degree + '\'' +
-                '}';
     }
 }
