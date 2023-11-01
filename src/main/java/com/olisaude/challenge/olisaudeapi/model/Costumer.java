@@ -4,11 +4,13 @@ import com.olisaude.challenge.olisaudeapi.dto.CostumerRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table
+@Table(name = "costumers")
 
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -19,7 +21,7 @@ public class Costumer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String birthDate;
+    private LocalDate birthDate;
     @Enumerated(EnumType.STRING)
     private CostumerGender gender;
     @ManyToOne
@@ -30,7 +32,7 @@ public class Costumer {
 
     public Costumer(CostumerRequest request) {
         this.name = request.name();
-        this.birthDate = request.birthDate();
+        this.birthDate = LocalDate.parse(request.birthDate());
         this.healthProblem = new HealthProblem();
         this.gender = request.gender();
         this.createdAt = LocalDateTime.now();
@@ -42,16 +44,19 @@ public class Costumer {
         this.updatedAt = LocalDateTime.now();
     }
 
-    @Override
-    public String toString() {
-        return "Costumer{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", birthDate='" + birthDate + '\'' +
-                ", gender='" + gender + '\'' +
-                ", createdAt='" + createdAt + '\'' +
-                ", updatedAt='" + updatedAt + '\'' +
-                ", active=" + active +
-                '}';
+    public void update(CostumerRequest request) {
+        if (request.name() != null){
+            this.name = request.name();
+        }
+
+        if (request.birthDate() != null){
+            this.birthDate = LocalDate.parse(request.birthDate());
+        }
+
+        if (request.gender() != null){
+            this.gender = request.gender();
+        }
+
+        this.updatedAt = LocalDateTime.now();
     }
 }
