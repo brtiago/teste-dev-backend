@@ -1,6 +1,7 @@
 package com.olisaude.challenge.olisaudeapi.service;
 
 import com.olisaude.challenge.olisaudeapi.dto.CostumerRequest;
+import com.olisaude.challenge.olisaudeapi.dto.CostumerResponse;
 import com.olisaude.challenge.olisaudeapi.model.Costumer;
 import com.olisaude.challenge.olisaudeapi.repository.CostumerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +30,8 @@ public class CostumerService {
         costumer.delete();
     }
 
-    public Costumer updateCostumer(@RequestBody CostumerRequest request){
-        var costumer = cr.getReferenceById(request.id());
+    public Costumer updateCostumer(Long id, CostumerRequest request){
+        var costumer = cr.getReferenceById(id);
         costumer.update(request);
 
         return costumer;
