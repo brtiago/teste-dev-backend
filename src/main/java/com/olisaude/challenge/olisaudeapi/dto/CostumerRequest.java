@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 
 public record CostumerRequest(
 
-        Long id,
         @NotBlank
         String name,
         @NotBlank
