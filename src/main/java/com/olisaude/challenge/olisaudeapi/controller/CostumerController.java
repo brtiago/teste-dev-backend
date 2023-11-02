@@ -6,10 +6,12 @@ import com.olisaude.challenge.olisaudeapi.model.Costumer;
 import com.olisaude.challenge.olisaudeapi.service.CostumerService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,9 +47,10 @@ public class CostumerController {
     }
 
     @Transactional
-    @PutMapping
-    public ResponseEntity updateCostumer(@RequestBody CostumerRequest request){
-        return cs.updateCostumer(request);
+    @PutMapping("/{id}")
+    public ResponseEntity<Costumer> updateCostumer(@PathVariable Long id, @RequestBody CostumerRequest request) {
+        Costumer costumer = cs.updateCostumer(id, request);
+        return ResponseEntity.ok(costumer);
     }
 
 }
