@@ -1,5 +1,6 @@
 package com.olisaude.challenge.olisaudeapi.model;
 
+import com.olisaude.challenge.olisaudeapi.dto.HealthProblemRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,13 +22,22 @@ public class HealthProblem {
     private String degree;
     private boolean active;
 
-    public HealthProblem(String name, String degree) {
-        this.name = name;
-        this.degree = degree;
+    public HealthProblem(HealthProblemRequest request) {
+        this.name = request.name();
+        this.degree = request.degree();
         this.active = true;
     }
 
     public void delete() {
         this.active = false;
+    }
+
+    public void update(HealthProblemRequest request) {
+        if (request.name() != null){
+            this.name = request.name();
+        }
+        if (request.degree() != null){
+            this.degree = request.degree();
+        }
     }
 }
