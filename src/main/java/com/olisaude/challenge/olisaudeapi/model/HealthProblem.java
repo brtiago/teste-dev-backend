@@ -4,6 +4,8 @@ import com.olisaude.challenge.olisaudeapi.dto.HealthProblemRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "health_problems")
 
@@ -21,6 +23,8 @@ public class HealthProblem {
     private String name;
     private String degree;
     private boolean active;
+    @ManyToMany(mappedBy = "healthProblem")
+    private List<Costumer> costumerList;
 
     public HealthProblem(HealthProblemRequest request) {
         this.name = request.name();
