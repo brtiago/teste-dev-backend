@@ -7,6 +7,7 @@ import com.olisaude.challenge.olisaudeapi.model.HealthProblem;
 import com.olisaude.challenge.olisaudeapi.repository.HealthProblemRepository;
 import com.olisaude.challenge.olisaudeapi.service.HealthProblemService;
 import jakarta.transaction.Transactional;
+import jakarta.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -21,15 +22,17 @@ import java.util.stream.Collectors;
 public class HealthProblemController {
 
     @Autowired
-    private HealthProblemRepository hpr;
+    private HealthProblemService service;
 
     @Transactional
     @PostMapping
-    public ResponseEntity<HealthProblemResponse> create (@RequestBody HealthProblemRequest request) throws Exception {
-        HealthProblem healthProblem = new HealthProblem(request);
-        hpr.save(new HealthProblem(request));
-        HealthProblemResponse response = new HealthProblemResponse(healthProblem.getId(), healthProblem.getName(), healthProblem.getDegree());
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    public ResponseEntity<String> create (@RequestBody HealthProblemRequest request) {
+        try {
+            HealthProblemResponse createdHealthProblem = this.service.create(request);
+            return ResponseEntity.ok("A new health problem has been registered");
+        } catch (ValidationException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping
