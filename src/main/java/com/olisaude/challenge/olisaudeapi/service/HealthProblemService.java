@@ -23,10 +23,18 @@ public class HealthProblemService {
         repository.save(healthProblem);
     }
 
-    public List listAll(){
+    public HealthProblem getOrCreateHealthProblem(HealthProblemRequest request){
+        return repository.findByName(request.name())
+                .orElseGet(() -> {
+                    HealthProblem healthProblem = new HealthProblem(request.name(), request.degree());
+                    return repository.save(healthProblem);
+                });
+    }
+
+    public List<HealthProblemResponse> listAll(){
         return repository.findAll()
                 .stream()
-                .map(healthProblem -> new HealthProblemResponse(healthProblem))
+                .map(HealthProblemResponse::new)
                 .collect(Collectors.toList());
     }
 
