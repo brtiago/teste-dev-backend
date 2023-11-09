@@ -9,6 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class HealthProblemService {
 
@@ -18,6 +21,13 @@ public class HealthProblemService {
     public void create(HealthProblemRequest request) {
         HealthProblem healthProblem = new HealthProblem(request);
         repository.save(healthProblem);
+    }
+
+    public List listAll(){
+        return repository.findAll()
+                .stream()
+                .map(healthProblem -> new HealthProblemResponse(healthProblem))
+                .collect(Collectors.toList());
     }
 
 
