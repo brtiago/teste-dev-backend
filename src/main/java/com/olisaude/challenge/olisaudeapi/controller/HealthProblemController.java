@@ -1,6 +1,7 @@
 package com.olisaude.challenge.olisaudeapi.controller;
 
 import com.olisaude.challenge.olisaudeapi.dto.CostumerResponse;
+import com.olisaude.challenge.olisaudeapi.dto.HealthProblemListResponse;
 import com.olisaude.challenge.olisaudeapi.dto.HealthProblemRequest;
 import com.olisaude.challenge.olisaudeapi.dto.HealthProblemResponse;
 import com.olisaude.challenge.olisaudeapi.model.HealthProblem;
@@ -25,33 +26,31 @@ public class HealthProblemController {
     @Autowired
     private HealthProblemService service;
 
+    @Autowired
+    private HealthProblemRepository repository;
+
     @Transactional
     @PostMapping
     public ResponseEntity<String> create (@RequestBody HealthProblemRequest request) {
         try {
-            this.service.create(request);
+            this.service.getOrCreateHealthProblem(request);
             return ResponseEntity.ok("A new health problem has been registered");
         } catch (ValidationException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
+
     @GetMapping
-    public ResponseEntity<List<HealthProblemResponse>> listAll(){
-        try{
-            List<HealthProblemResponse> response = this.service.listAll();
-            return ResponseEntity.status(HttpStatus.OK).body(response);
-        } catch (ValidationException e) {
-            return ResponseEntity.badRequest().body(Collections.singletonList(new HealthProblemResponse(e.getMessage())));
-
-        }
-
+    public ResponseEntity<List<HealthProblemResponse>> listAll() {
+        List<HealthProblemResponse> response = this.service.listAll();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @Transactional
     @PutMapping("/{id}")
     public ResponseEntity<HealthProblem> update(@PathVariable Long id,@RequestBody HealthProblemRequest request) {
-        HealthProblem healthProblem = hpr.getReferenceById(id);
+        HealthProblem healthProblem = repository.getReferenceById(id);
         healthProblem.update(request);
         return ResponseEntity.ok(healthProblem);
     }
