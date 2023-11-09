@@ -32,6 +32,11 @@ public class HealthProblem {
         this.active = true;
     }
 
+    public HealthProblem(String name, String degree) {
+        this.name = name;
+        this.degree = degree;
+        this.active = true;
+    }
     public void delete() {
         this.active = false;
     }
