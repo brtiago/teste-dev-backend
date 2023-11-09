@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,7 +29,7 @@ public class HealthProblemController {
     @PostMapping
     public ResponseEntity<String> create (@RequestBody HealthProblemRequest request) {
         try {
-            HealthProblemResponse createdHealthProblem = this.service.create(request);
+            this.service.create(request);
             return ResponseEntity.ok("A new health problem has been registered");
         } catch (ValidationException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -37,11 +38,14 @@ public class HealthProblemController {
 
     @GetMapping
     public ResponseEntity<List<HealthProblemResponse>> listAll(){
-        List<HealthProblemResponse> healthProblemResponse = hpr.findAll()
-                .stream()
-                .map(healthProblem -> new HealthProblemResponse(healthProblem))
-                .collect(Collectors.toList());
-        return ResponseEntity.status(HttpStatus.OK).body(healthProblemResponse);
+        try{
+            List<HealthProblemResponse> response = this.service.listAll();
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (ValidationException e) {
+            return ResponseEntity.badRequest().body(Collections.singletonList(new HealthProblemResponse(e.getMessage())));
+
+        }
+
     }
 
     @Transactional
