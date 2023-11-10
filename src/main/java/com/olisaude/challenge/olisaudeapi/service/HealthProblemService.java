@@ -32,7 +32,7 @@ public class HealthProblemService {
     }
 
     public List<HealthProblemResponse> listAll(){
-        return repository.findAll()
+        return repository.findAllByActiveTrue()
                 .stream()
                 .map(HealthProblemResponse::new)
                 .collect(Collectors.toList());
