@@ -44,4 +44,10 @@ public class HealthProblemController {
         return ResponseEntity.ok().build();
     }
 
+    @Transactional
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        service.delete(id);
+    }
+
 }
