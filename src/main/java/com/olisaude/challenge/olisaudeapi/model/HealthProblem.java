@@ -1,6 +1,7 @@
 package com.olisaude.challenge.olisaudeapi.model;
 
 import com.olisaude.challenge.olisaudeapi.dto.HealthProblemRequest;
+import com.olisaude.challenge.olisaudeapi.dto.HealthProblemUpdate;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -41,7 +42,7 @@ public class HealthProblem {
         this.active = false;
     }
 
-    public void update(HealthProblemRequest request) {
+    public void update(HealthProblemUpdate request) {
         if (request.name() != null){
             this.name = request.name();
         }
