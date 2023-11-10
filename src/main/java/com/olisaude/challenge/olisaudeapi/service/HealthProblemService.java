@@ -40,5 +40,8 @@ public class HealthProblemService {
     }
 
 
-
+    public void delete(Long id) {
+        HealthProblem healthProblem = repository.getReferenceById(id);
+        healthProblem.delete();
+    }
 }
