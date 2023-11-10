@@ -2,6 +2,7 @@ package com.olisaude.challenge.olisaudeapi.service;
 
 import com.olisaude.challenge.olisaudeapi.dto.HealthProblemRequest;
 import com.olisaude.challenge.olisaudeapi.dto.HealthProblemResponse;
+import com.olisaude.challenge.olisaudeapi.dto.HealthProblemUpdate;
 import com.olisaude.challenge.olisaudeapi.model.HealthProblem;
 import com.olisaude.challenge.olisaudeapi.repository.HealthProblemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,6 @@ public class HealthProblemService {
     @Autowired
     private HealthProblemRepository repository;
 
-    public void create(HealthProblemRequest request) {
-        HealthProblem healthProblem = new HealthProblem(request);
-        repository.save(healthProblem);
-    }
-
     public HealthProblem getOrCreateHealthProblem(HealthProblemRequest request){
         return repository.findByName(request.name())
                 .orElseGet(() -> {
@@ -37,6 +33,12 @@ public class HealthProblemService {
                 .map(HealthProblemResponse::new)
                 .collect(Collectors.toList());
     }
+
+    public void update(Long id, HealthProblemUpdate update){
+        HealthProblem healthProblem = repository.getReferenceById(id);
+        healthProblem.update(update);
+    }
+
 
 
 }
