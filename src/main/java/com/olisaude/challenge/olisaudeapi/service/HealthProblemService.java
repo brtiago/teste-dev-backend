@@ -6,8 +6,6 @@ import com.olisaude.challenge.olisaudeapi.dto.HealthProblemUpdate;
 import com.olisaude.challenge.olisaudeapi.model.HealthProblem;
 import com.olisaude.challenge.olisaudeapi.repository.HealthProblemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
