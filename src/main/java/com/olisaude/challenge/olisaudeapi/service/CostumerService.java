@@ -9,32 +9,39 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CostumerService {
     @Autowired
-    private CostumerRepository cr;
+    private CostumerRepository repository;
     public Costumer createCostumer(@RequestBody CostumerRequest request) {
         Costumer costumer = new Costumer(request);
         System.out.println(costumer);
-        return cr.save(costumer);
+        return repository.save(costumer);
     }
 
     public List<Costumer> listAll(){
-        return cr.findAll();
+        return repository.findAll();
     }
 
-
     public void delete(Long id) {
-        var costumer = cr.getReferenceById(id);
+        var costumer = repository.getReferenceById(id);
         costumer.delete();
     }
 
     public Costumer updateCostumer(Long id, CostumerRequest request){
-        var costumer = cr.getReferenceById(id);
+        var costumer = repository.getReferenceById(id);
         costumer.update(request);
 
         return costumer;
+    }
+
+    public List<CostumerResponse> listRiskier() {
+        return repository.findAllByActiveTrue()
+                .stream()
+                .map(CostumerResponse::new)
+                .collect(Collectors.toList());
     }
 
 
