@@ -33,7 +33,7 @@ public class Costumer {
             joinColumns = @JoinColumn(name = "customer_id"),
             inverseJoinColumns = @JoinColumn(name = "health_problem_id")
     )
-    private List<HealthProblem> healthProblem;
+    private List<HealthProblem> healthProblems;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -42,7 +42,7 @@ public class Costumer {
     public Costumer(CostumerRequest request) {
         this.name = request.name();
         this.birthDate = LocalDate.parse(request.birthDate());
-        this.healthProblem = new ArrayList<>();
+        this.healthProblems = new ArrayList<>();
         this.gender = request.gender();
         this.createdAt = LocalDateTime.now();
         this.active = true;
@@ -68,7 +68,5 @@ public class Costumer {
             this.gender = request.gender();
             this.updatedAt = LocalDateTime.now();
         }
-
-
     }
 }
