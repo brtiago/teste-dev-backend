@@ -11,7 +11,7 @@ public record CostumerRequest(
         String birthDate,
         @NotBlank
         CostumerGender gender,
-        String healthProblem,
+        Long healthProblem,
         String degree
 ) {
 }
