@@ -26,6 +26,8 @@ public class Customer {
     private LocalDate birthDate;
     @Enumerated(EnumType.STRING)
     private CustomerGender gender;
+    private int sd;
+    private double healthScore;
 
     @ManyToMany
     @JoinTable(
@@ -42,7 +44,7 @@ public class Customer {
     public Customer(CustomerRequest request) {
         this.name = request.name();
         this.birthDate = LocalDate.parse(request.birthDate());
-        this.healthProblems = new ArrayList<>();
+        this.healthProblems = new ArrayList<>(request.healthProblem());
         this.gender = request.gender();
         this.createdAt = LocalDateTime.now();
         this.active = true;
@@ -52,6 +54,7 @@ public class Customer {
         this.active = false;
         this.updatedAt = LocalDateTime.now();
     }
+
 
     public void update(CustomerRequest request) {
         if (request.name() != null){
