@@ -24,7 +24,7 @@ public class HealthProblem {
     private String name;
     private String degree;
     private boolean active;
-    @ManyToMany(mappedBy = "healthProblem")
+    @ManyToMany(mappedBy = "healthProblems")
     private List<Customer> customerList;
 
     public HealthProblem(HealthProblemRequest request) {
