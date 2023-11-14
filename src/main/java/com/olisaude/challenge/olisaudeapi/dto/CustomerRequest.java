@@ -1,7 +1,10 @@
 package com.olisaude.challenge.olisaudeapi.dto;
 
 import com.olisaude.challenge.olisaudeapi.model.CustomerGender;
+import com.olisaude.challenge.olisaudeapi.model.HealthProblem;
 import jakarta.validation.constraints.NotBlank;
+
+import java.util.List;
 
 public record CustomerRequest(
 
@@ -11,7 +14,7 @@ public record CustomerRequest(
         String birthDate,
         @NotBlank
         CustomerGender gender,
-        Long healthProblem,
+        List<HealthProblem> healthProblem,
         String degree
 ) {
 }
