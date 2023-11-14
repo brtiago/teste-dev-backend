@@ -4,14 +4,14 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "costumer_health_problems")
-public class CostumerHealthProblem {
+public class CustomerHealthProblem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "costumer_id")
-    private Costumer customer;
+    private Customer customer;
 
     @ManyToOne
     @JoinColumn(name = "health_problem_id")

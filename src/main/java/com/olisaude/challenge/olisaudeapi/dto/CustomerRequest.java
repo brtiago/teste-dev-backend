@@ -1,16 +1,16 @@
 package com.olisaude.challenge.olisaudeapi.dto;
 
-import com.olisaude.challenge.olisaudeapi.model.CostumerGender;
+import com.olisaude.challenge.olisaudeapi.model.CustomerGender;
 import jakarta.validation.constraints.NotBlank;
 
-public record CostumerRequest(
+public record CustomerRequest(
 
         @NotBlank
         String name,
         @NotBlank
         String birthDate,
         @NotBlank
-        CostumerGender gender,
+        CustomerGender gender,
         Long healthProblem,
         String degree
 ) {

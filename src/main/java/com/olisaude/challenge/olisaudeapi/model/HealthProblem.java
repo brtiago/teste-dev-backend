@@ -25,7 +25,7 @@ public class HealthProblem {
     private String degree;
     private boolean active;
     @ManyToMany(mappedBy = "healthProblem")
-    private List<Costumer> costumerList;
+    private List<Customer> customerList;
 
     public HealthProblem(HealthProblemRequest request) {
         this.name = request.name();

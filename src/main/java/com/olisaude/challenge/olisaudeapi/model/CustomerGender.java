@@ -1,6 +1,6 @@
 package com.olisaude.challenge.olisaudeapi.model;
 
-public enum CostumerGender {
+public enum CustomerGender {
     MALE,
     FEMALE,
     TRANSGENDER,

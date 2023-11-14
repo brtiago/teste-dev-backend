@@ -1,6 +1,6 @@
 package com.olisaude.challenge.olisaudeapi.model;
 
-import com.olisaude.challenge.olisaudeapi.dto.CostumerRequest;
+import com.olisaude.challenge.olisaudeapi.dto.CustomerRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,14 +18,14 @@ import java.util.List;
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
-public class Costumer {
+public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private LocalDate birthDate;
     @Enumerated(EnumType.STRING)
-    private CostumerGender gender;
+    private CustomerGender gender;
 
     @ManyToMany
     @JoinTable(
@@ -39,7 +39,7 @@ public class Costumer {
     private LocalDateTime updatedAt;
     private boolean active;
 
-    public Costumer(CostumerRequest request) {
+    public Customer(CustomerRequest request) {
         this.name = request.name();
         this.birthDate = LocalDate.parse(request.birthDate());
         this.healthProblems = new ArrayList<>();
@@ -53,7 +53,7 @@ public class Costumer {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public void update(CostumerRequest request) {
+    public void update(CustomerRequest request) {
         if (request.name() != null){
             this.name = request.name();
             this.updatedAt = LocalDateTime.now();
