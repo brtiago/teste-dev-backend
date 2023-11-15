@@ -1,6 +1,7 @@
 package com.olisaude.challenge.olisaudeapi.model;
 
 import com.olisaude.challenge.olisaudeapi.dto.CustomerRequest;
+import com.olisaude.challenge.olisaudeapi.service.HealthScoreCalculator;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -40,6 +41,7 @@ public class Customer {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private boolean active;
+    private HealthScoreCalculator calculator;
 
     public Customer(CustomerRequest request) {
         this.name = request.name();
@@ -48,6 +50,8 @@ public class Customer {
         this.gender = request.gender();
         this.createdAt = LocalDateTime.now();
         this.active = true;
+        this.sd = calculator.getSd(request.healthProblem());
+        this.healthScore = calculator.getScore(sd);
     }
 
     public void delete() {
