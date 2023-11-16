@@ -10,4 +10,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     Optional<Customer> findById(Long id);
     Optional<Customer> findByName(String name);
     List<Customer> findAllByActiveTrue();
+
+    List<Customer> findTop10ByOrderByHealthScoreDesc();
+
 }
