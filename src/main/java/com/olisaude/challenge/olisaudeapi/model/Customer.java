@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "costumers")
+@Table(name = "customers")
 
 @ToString
 @AllArgsConstructor
@@ -32,16 +32,14 @@ public class Customer {
 
     @ManyToMany
     @JoinTable(
-            name = "customer_health_problems",
-            joinColumns = @JoinColumn(name = "customer_id"),
+            name = "costumer_health_problems",
+            joinColumns = @JoinColumn(name = "costumer_id"),
             inverseJoinColumns = @JoinColumn(name = "health_problem_id")
     )
     private List<HealthProblem> healthProblems;
-
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private boolean active;
-    private HealthScoreCalculator calculator;
 
     public Customer(CustomerRequest request) {
         this.name = request.name();
@@ -50,6 +48,7 @@ public class Customer {
         this.gender = request.gender();
         this.createdAt = LocalDateTime.now();
         this.active = true;
+        HealthScoreCalculator calculator = new HealthScoreCalculator();
         this.sd = calculator.getSd(request.healthProblem());
         this.healthScore = calculator.getScore(sd);
     }
