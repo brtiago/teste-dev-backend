@@ -1,6 +1,7 @@
 package com.olisaude.challenge.olisaudeapi.model;
 
 import com.olisaude.challenge.olisaudeapi.dto.CustomerRequest;
+import com.olisaude.challenge.olisaudeapi.dto.HealthProblemRequest;
 import com.olisaude.challenge.olisaudeapi.service.HealthScoreCalculator;
 import jakarta.persistence.*;
 import lombok.*;
@@ -9,6 +10,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.util.Objects.requireNonNullElse;
 
 @Entity
 @Table(name = "customers")
@@ -30,20 +33,20 @@ public class Customer {
     private int sd;
     private double healthScore;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "costumer_health_problems",
             joinColumns = @JoinColumn(name = "costumer_id"),
             inverseJoinColumns = @JoinColumn(name = "health_problem_id")
     )
-    private List<HealthProblem> healthProblems;
+    private List<HealthProblemRequest> healthProblems;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private boolean active;
 
     public Customer(CustomerRequest request) {
         this.name = request.name();
-        this.birthDate = LocalDate.parse(request.birthDate());
+        this.birthDate = request.birthDate();
         this.healthProblems = new ArrayList<>(request.healthProblem());
         this.gender = request.gender();
         this.createdAt = LocalDateTime.now();
@@ -60,19 +63,11 @@ public class Customer {
 
 
     public void update(CustomerRequest request) {
-        if (request.name() != null){
-            this.name = request.name();
-            this.updatedAt = LocalDateTime.now();
-        }
-
-        if (request.birthDate() != null){
-            this.birthDate = LocalDate.parse(request.birthDate());
-            this.updatedAt = LocalDateTime.now();
-        }
-
-        if (request.gender() != null){
-            this.gender = request.gender();
-            this.updatedAt = LocalDateTime.now();
-        }
+        this.name = requireNonNullElse(request.name(), this.name);
+        this.gender = requireNonNullElse(request.gender(), this.gender);
+        this.birthDate = requireNonNullElse(request.birthDate(), this.birthDate);
+        // TODO: Em vez de usar o request.healthProblem, usar o healthProblems que vem nos parametros do método
+        this.healthProblems = requireNonNullElse(request.healthProblem(), this.healthProblems);
+        this.updatedAt = LocalDateTime.now();
     }
 }
