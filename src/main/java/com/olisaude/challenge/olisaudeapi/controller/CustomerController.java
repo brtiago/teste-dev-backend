@@ -2,6 +2,7 @@ package com.olisaude.challenge.olisaudeapi.controller;
 
 import com.olisaude.challenge.olisaudeapi.dto.CustomerRequest;
 import com.olisaude.challenge.olisaudeapi.dto.CustomerResponse;
+import com.olisaude.challenge.olisaudeapi.dto.CustomerRiskier;
 import com.olisaude.challenge.olisaudeapi.model.Customer;
 import com.olisaude.challenge.olisaudeapi.service.CustomerService;
 import jakarta.transaction.Transactional;
@@ -35,6 +36,15 @@ public class CustomerController {
                 .map(customer -> new CustomerResponse(customer))
                 .collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK).body(customerRespons);
+    }
+
+    @GetMapping("/riskier")
+    public ResponseEntity<List<CustomerRiskier>> listRiskier() {
+        List<CustomerRiskier> response = cs.listRiskier()
+                .stream()
+                .map(customer -> new CustomerRiskier(customer))
+                .collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @DeleteMapping("/{id}")
