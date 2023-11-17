@@ -25,6 +25,8 @@ public class CustomerService {
         return repository.findAll();
     }
 
+    public List<Customer> listRiskier() { return repository.findTop10ByOrderByHealthScoreDesc(); }
+
     public void delete(Long id) {
         var customer = repository.getReferenceById(id);
         customer.delete();
@@ -36,13 +38,5 @@ public class CustomerService {
 
         return customer;
     }
-
-    public List<CustomerResponse> listRiskier() {
-        return repository.findAllByActiveTrue()
-                .stream()
-                .map(CustomerResponse::new)
-                .collect(Collectors.toList());
-    }
-
 
 }
