@@ -17,7 +17,7 @@ public record CustomerRequest(
         LocalDate birthDate,
         @NotBlank
         CustomerGender gender,
-        List<HealthProblemRequest> healthProblem,
+        List<HealthProblem> healthProblem,
         String degree
 ) {
 }

@@ -39,7 +39,7 @@ public class Customer {
             joinColumns = @JoinColumn(name = "costumer_id"),
             inverseJoinColumns = @JoinColumn(name = "health_problem_id")
     )
-    private List<HealthProblemRequest> healthProblems;
+    private List<HealthProblem> healthProblems;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private boolean active;
@@ -47,7 +47,7 @@ public class Customer {
     public Customer(CustomerRequest request) {
         this.name = request.name();
         this.birthDate = request.birthDate();
-        this.healthProblems = new ArrayList<>(request.healthProblem());
+        this.healthProblems = new ArrayList<HealthProblem>();
         this.gender = request.gender();
         this.createdAt = LocalDateTime.now();
         this.active = true;
@@ -66,7 +66,6 @@ public class Customer {
         this.name = requireNonNullElse(request.name(), this.name);
         this.gender = requireNonNullElse(request.gender(), this.gender);
         this.birthDate = requireNonNullElse(request.birthDate(), this.birthDate);
-        // TODO: Em vez de usar o request.healthProblem, usar o healthProblems que vem nos parametros do método
         this.healthProblems = requireNonNullElse(request.healthProblem(), this.healthProblems);
         this.updatedAt = LocalDateTime.now();
     }
