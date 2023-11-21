@@ -47,7 +47,7 @@ public class Customer {
     public Customer(CustomerRequest request) {
         this.name = request.name();
         this.birthDate = request.birthDate();
-        this.healthProblems = new ArrayList<HealthProblem>();
+        this.healthProblems = new ArrayList<>(request.healthProblem());
         this.gender = request.gender();
         this.createdAt = LocalDateTime.now();
         this.active = true;
