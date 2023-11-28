@@ -44,6 +44,15 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.OK).body(new CustomerResponse(customer));
     }
 
+    @GetMapping("/findByName")
+    public ResponseEntity<List<CustomerResponse>> listByName(@RequestParam String name){
+        List<CustomerResponse> customerResponse = cs.findByName(name.trim().toUpperCase())
+                .stream()
+                .map(customer -> new CustomerResponse(customer))
+                .collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.OK).body(customerResponse);
+    }
+
     @GetMapping("/riskier")
     public ResponseEntity<List<CustomerRiskier>> listRiskier() {
         List<CustomerRiskier> response = cs.listRiskier()
