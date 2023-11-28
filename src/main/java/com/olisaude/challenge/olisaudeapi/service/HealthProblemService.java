@@ -32,9 +32,10 @@ public class HealthProblemService {
                 .collect(Collectors.toList());
     }
 
-    public void update(Long id, HealthProblemUpdate update){
+    public HealthProblem update(Long id, HealthProblemUpdate update){
         HealthProblem healthProblem = repository.getReferenceById(id);
         healthProblem.update(update);
+        return healthProblem;
     }
 
 
