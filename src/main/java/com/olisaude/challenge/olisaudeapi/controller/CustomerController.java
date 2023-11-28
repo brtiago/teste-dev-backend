@@ -31,11 +31,17 @@ public class CustomerController {
 
     @GetMapping
     public ResponseEntity<List<CustomerResponse>> listAll() {
-        List<CustomerResponse> customerRespons = cs.listAll()
+        List<CustomerResponse> customerResponse = cs.listAll()
                 .stream()
                 .map(customer -> new CustomerResponse(customer))
                 .collect(Collectors.toList());
-        return ResponseEntity.status(HttpStatus.OK).body(customerRespons);
+        return ResponseEntity.status(HttpStatus.OK).body(customerResponse);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CustomerResponse> listById(@PathVariable Long id){
+        Customer customer = cs.listById(id);
+        return ResponseEntity.status(HttpStatus.OK).body(new CustomerResponse(customer));
     }
 
     @GetMapping("/riskier")

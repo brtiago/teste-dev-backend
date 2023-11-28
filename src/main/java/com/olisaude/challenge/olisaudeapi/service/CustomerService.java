@@ -1,6 +1,7 @@
 package com.olisaude.challenge.olisaudeapi.service;
 
 import com.olisaude.challenge.olisaudeapi.dto.CustomerRequest;
+import com.olisaude.challenge.olisaudeapi.dto.CustomerResponse;
 import com.olisaude.challenge.olisaudeapi.model.Customer;
 import com.olisaude.challenge.olisaudeapi.model.HealthProblem;
 import com.olisaude.challenge.olisaudeapi.repository.CustomerRepository;
@@ -50,4 +51,7 @@ public class CustomerService {
         return customer;
     }
 
+    public Customer listById(Long id) {
+        return repository.getReferenceById(id);
+    }
 }
