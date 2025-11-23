@@ -1,0 +1,15 @@
+{
+  "name": "John Doe",
+  "birthDate": "1990-01-01",
+  "gender": "MALE",
+  "healthProblem": [
+    {
+      "name": "CANCER"
+    },
+    {
+      "name": "DEPRESSION"
+    }
+  ],
+  "dataCriacao": "12/11/2023",
+  "dataAtualizacao": "20/11/2025"
+}
