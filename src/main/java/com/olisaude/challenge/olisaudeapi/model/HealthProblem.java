@@ -1,5 +1,6 @@
 package com.olisaude.challenge.olisaudeapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.olisaude.challenge.olisaudeapi.dto.HealthProblemRequest;
 import com.olisaude.challenge.olisaudeapi.dto.HealthProblemUpdate;
 import jakarta.persistence.*;
@@ -10,7 +11,6 @@ import java.util.List;
 @Entity
 @Table(name = "health_problems")
 
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -24,6 +24,8 @@ public class HealthProblem {
     private String name;
     private String degree;
     private boolean active;
+
+    @JsonIgnore
     @ManyToMany(mappedBy = "healthProblems")
     private List<Customer> customerList;
 

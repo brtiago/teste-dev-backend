@@ -1,7 +1,6 @@
 package com.olisaude.challenge.olisaudeapi.model;
 
 import com.olisaude.challenge.olisaudeapi.dto.CustomerRequest;
-import com.olisaude.challenge.olisaudeapi.dto.HealthProblemRequest;
 import com.olisaude.challenge.olisaudeapi.service.HealthScoreCalculator;
 import jakarta.persistence.*;
 import lombok.*;
@@ -62,11 +61,11 @@ public class Customer {
     }
 
 
-    public void update(CustomerRequest request) {
+    public void update(CustomerRequest request, List<HealthProblem> healthProblems) {
         this.name = requireNonNullElse(request.name(), this.name);
         this.gender = requireNonNullElse(request.gender(), this.gender);
         this.birthDate = requireNonNullElse(request.birthDate(), this.birthDate);
-        this.healthProblems = requireNonNullElse(request.healthProblem(), this.healthProblems);
+        this.healthProblems = healthProblems;
         this.updatedAt = LocalDateTime.now();
     }
 }

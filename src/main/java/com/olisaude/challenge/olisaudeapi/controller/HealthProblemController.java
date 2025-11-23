@@ -39,9 +39,9 @@ public class HealthProblemController {
 
     @Transactional
     @PutMapping("/{id}")
-    public ResponseEntity<HealthProblem> update(@PathVariable Long id, @RequestBody HealthProblemUpdate dto) {
-        service.update(id, dto);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<HealthProblemResponse> update(@PathVariable Long id, @RequestBody HealthProblemUpdate dto) {
+        HealthProblem hp = service.update(id, dto);
+        return ResponseEntity.ok(new HealthProblemResponse(hp));
     }
 
     @Transactional
