@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: Cadastro de Clientes - Olisaude
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/olisaude
+    username: sa
+    password: ""
+
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        ddl-auto: create
+
+  server:
+    error:
+      include-stack-trace: never
