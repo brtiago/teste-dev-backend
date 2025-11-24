@@ -27,6 +27,7 @@ public class Customer {
     private Long id;
     private String name;
     private LocalDate birthDate;
+
     @Enumerated(EnumType.STRING)
     private CustomerGender gender;
     private int sd;
