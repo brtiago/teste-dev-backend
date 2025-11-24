@@ -1,5 +1,6 @@
 package com.olisaude.challenge.olisaudeapi.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.olisaude.challenge.olisaudeapi.model.CondicaoSaude;
 import com.olisaude.challenge.olisaudeapi.model.GeneroCliente;
 
@@ -8,6 +9,7 @@ import java.util.List;
 
 public record ClienteRequest(
         String nome,
+        @JsonFormat(pattern = "dd-MM-yyyy")
         LocalDate dataNascimento,
         GeneroCliente genero,
         List<CondicaoSaude> condicaoSaude
