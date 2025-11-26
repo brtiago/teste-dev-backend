@@ -7,6 +7,7 @@ import com.olisaude.challenge.olisaudeapi.model.GeneroCliente;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public record ClienteResponse(
         Long id,
@@ -14,7 +15,7 @@ public record ClienteResponse(
         String cpf,
         LocalDate dataNascimento,
         GeneroCliente genero,
-        List<CondicaoSaude> problemaSaude,
+        List<CondicaoSaudeResponse> problemaSaude,
         LocalDateTime dataCriacao,
         boolean ativo
 ) {
@@ -25,7 +26,11 @@ public record ClienteResponse(
                 entidade.getCpf(),
                 entidade.getDataNascimento(),
                 entidade.getGenero(),
-                entidade.getCondicaoSaude(),
+                entidade.getCondicaoSaude().stream()
+                        .map(condicao -> new CondicaoSaudeResponse(
+                                condicao.getNome(),
+                                condicao.getGrau()
+                        )).collect(Collectors.toList()),
                 entidade.getDataCriacao(),
                 entidade.isAtivo()
         );
