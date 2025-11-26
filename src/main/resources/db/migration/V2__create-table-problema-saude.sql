@@ -1,4 +1,4 @@
-create table condicao_saude(
+create table problema_saude(
 
     id bigint not null generated always as identity,
     nome VARCHAR(100) NOT NULL,

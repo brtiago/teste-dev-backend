@@ -1,6 +1,7 @@
 package com.olisaude.challenge.olisaudeapi.model;
 
 import com.olisaude.challenge.olisaudeapi.dto.ClienteRequest;
+import com.olisaude.challenge.olisaudeapi.dto.ProblemaSaudeRequest;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,7 +13,11 @@ import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "clientes")
@@ -53,11 +58,11 @@ public class Cliente {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "cliente_condicao_saude",
+            name = "cliente_problema_saude",
             joinColumns = @JoinColumn(name = "id_cliente"),
-            inverseJoinColumns = @JoinColumn(name = "id_condicao_saude")
+            inverseJoinColumns = @JoinColumn(name = "id_problema_saude")
     )
-    private List<CondicaoSaude> condicaoSaude;
+    private List<ProblemaSaude> problemaSaude;
 
     protected Cliente(){}
 
@@ -66,7 +71,11 @@ public class Cliente {
         this.cpf = request.cpf();
         this.dataNascimento = request.dataNascimento();
         this.genero = request.genero();
-        this.condicaoSaude = request.condicaoSaude();
+
+        this.problemaSaude = request.problemaSaude() != null ?
+            request.problemaSaude().stream()
+                    .map(problema -> new ProblemaSaude(problema.nome(), problema.grau()))
+                    .collect(Collectors.toList()) : new ArrayList<>();
         dataCriacao = LocalDateTime.now();
         this.ativo = true;
         atualizarCalculos();
@@ -78,11 +87,9 @@ public class Cliente {
     }
 
     private Integer calcularSd() {
-        if(condicaoSaude == null) {
-            return 0;
-        }
-
-        return condicaoSaude.stream()
+        return Optional.ofNullable(problemaSaude)
+                .orElse(Collections.emptyList())
+                .stream()
                 .mapToInt(problema -> problema.getGrau().getValue())
                 .sum();
     }
@@ -98,8 +105,16 @@ public class Cliente {
         return (1.0 / (1.0 + Math.exp(2.8 - sd) )) * 100;
     }
 
-    public void setCondicaoSaude(List<CondicaoSaude> condicaoSaude) {
-        this.condicaoSaude = condicaoSaude;
+    public void setProblemaSaude(List<ProblemaSaude> problemaSaude) {
+        this.problemaSaude = problemaSaude != null ? problemaSaude : new ArrayList<>();
+        atualizarCalculos();
+    }
+
+    public void setProblemaSaudeFromRequest(List<ProblemaSaudeRequest> problemaSaudeRequest) {
+        this.problemaSaude = problemaSaudeRequest != null ?
+                problemaSaudeRequest.stream()
+                        .map(problema -> new ProblemaSaude(problema.nome(), problema.grau()))
+                        .collect(Collectors.toList()) : new ArrayList<>();
         atualizarCalculos();
     }
 

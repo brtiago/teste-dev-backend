@@ -3,6 +3,7 @@ package com.olisaude.challenge.olisaudeapi.service;
 import com.olisaude.challenge.olisaudeapi.dto.ClienteRequest;
 import com.olisaude.challenge.olisaudeapi.dto.ClienteResponse;
 import com.olisaude.challenge.olisaudeapi.model.Cliente;
+import com.olisaude.challenge.olisaudeapi.model.ProblemaSaude;
 import com.olisaude.challenge.olisaudeapi.repository.ClienteRepository;
 import com.olisaude.challenge.olisaudeapi.service.exception.ResourceAlreadyExists;
 import com.olisaude.challenge.olisaudeapi.service.exception.ResourceNotFoundException;
@@ -61,7 +62,12 @@ public class ClienteService {
         cliente.setCpf(request.cpf());
         cliente.setDataNascimento(request.dataNascimento());
         cliente.setGenero(request.genero());
-        cliente.setCondicaoSaude(request.condicaoSaude());
+
+        List<ProblemaSaude> problemasSaude = request.problemaSaude().stream()
+                .map(problema -> new ProblemaSaude(problema.nome(), problema.grau()))
+                .collect(Collectors.toList());
+
+        cliente.setProblemaSaude(problemasSaude);
         cliente.setDataAtualizacao(LocalDateTime.now());
         cliente.atualizarData();
 

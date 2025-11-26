@@ -7,12 +7,11 @@ import lombok.Setter;
 import lombok.EqualsAndHashCode;
 
 @Entity
-@Table(name = "condicao_saude")
 @Getter
 @Setter
 @EqualsAndHashCode
 
-public class CondicaoSaude {
+public class ProblemaSaude {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,4 +23,12 @@ public class CondicaoSaude {
     private GrauProblemaSaude grau;
 
     private boolean ativo = true;
+
+    public ProblemaSaude() {}
+
+    public ProblemaSaude(String nome, GrauProblemaSaude grau) {
+        this.nome = nome;
+        this.grau = grau;
+        this.ativo = true;
+    }
 }

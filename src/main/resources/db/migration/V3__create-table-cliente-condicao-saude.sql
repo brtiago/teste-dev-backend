@@ -1,7 +1,7 @@
-CREATE TABLE IF NOT EXISTS cliente_condicao_saude (
+CREATE TABLE IF NOT EXISTS cliente_problema_saude (
     id_cliente BIGINT NOT NULL,
-    id_condicao_saude BIGINT NOT NULL,
-    PRIMARY KEY (id_cliente, id_condicao_saude),
+    id_problema_saude BIGINT NOT NULL,
+    PRIMARY KEY (id_cliente, id_problema_saude),
     FOREIGN KEY (id_cliente) REFERENCES clientes(id),
-    FOREIGN KEY (id_condicao_saude) REFERENCES condicao_saude(id)
+    FOREIGN KEY (id_problema_saude) REFERENCES problema_saude(id)
 );
