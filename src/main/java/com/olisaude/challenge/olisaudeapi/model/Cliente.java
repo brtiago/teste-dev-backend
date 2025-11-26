@@ -87,6 +87,11 @@ public class Cliente {
                 .sum();
     }
 
+    public void desativar() {
+        this.ativo = false;
+        this.dataAtualizacao = LocalDateTime.now();
+    }
+
     public double calcularScore() {
         int sd = calcularSd();
         // score = (1 / (1 + eˆ-(-2.8 + sd ))) * 100

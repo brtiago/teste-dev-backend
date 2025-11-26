@@ -70,12 +70,10 @@ public class ClienteService {
     }
 
     @Transactional
-        public void remover (Long id) {
+    public void desativar(Long id) {
         Cliente cliente = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado: " + id));
-
-        cliente.setAtivo(false);
-        Cliente atualizado = repository.save(cliente);
+        cliente.desativar();
     }
 
     public List<ClienteResponse> buscarMaiorRisco() {
