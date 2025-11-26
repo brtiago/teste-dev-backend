@@ -11,6 +11,7 @@ import java.util.List;
 public record ClienteResponse(
         Long id,
         String nome,
+        String cpf,
         LocalDate dataNascimento,
         GeneroCliente genero,
         List<CondicaoSaude> problemaSaude,
@@ -21,6 +22,7 @@ public record ClienteResponse(
         return new ClienteResponse(
                 entidade.getId(),
                 entidade.getNome(),
+                entidade.getCpf(),
                 entidade.getDataNascimento(),
                 entidade.getGenero(),
                 entidade.getCondicaoSaude(),

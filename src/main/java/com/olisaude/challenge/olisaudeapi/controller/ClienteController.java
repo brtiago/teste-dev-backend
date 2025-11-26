@@ -32,6 +32,12 @@ public class ClienteController {
         return ResponseEntity.ok(clienteEncontrado);
     }
 
+    @GetMapping("/buscar/{cpf}")
+    public ResponseEntity<ClienteResponse> buscarCpf(@PathVariable String cpf) {
+        ClienteResponse clienteEncontrado = clienteService.buscarCpf(cpf);
+        return ResponseEntity.ok(clienteEncontrado);
+    }
+
     @GetMapping
     public ResponseEntity<List<ClienteResponse>> buscarTodos() {
         List<ClienteResponse> listaClientes = clienteService.buscarTodos();

@@ -34,6 +34,12 @@ public class ClienteService {
         return ClienteResponse.fromEntity(clienteExistente);
     }
 
+    public ClienteResponse buscarCpf(String cpf) {
+        Cliente clienteExistente = repository.findByCpf(cpf)
+                .orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado: " + cpf));
+        return ClienteResponse.fromEntity(clienteExistente);
+    }
+
     public List<ClienteResponse> buscarTodos() {
         return repository.findAll()
                 .stream()
@@ -47,6 +53,7 @@ public class ClienteService {
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado: " + id));
 
         cliente.setNome(request.nome());
+        cliente.setCpf(request.cpf());
         cliente.setDataNascimento(request.dataNascimento());
         cliente.setGenero(request.genero());
         cliente.setCondicaoSaude(request.condicaoSaude());
@@ -72,4 +79,5 @@ public class ClienteService {
                 .map(ClienteResponse::fromEntity)
                 .collect(Collectors.toList());
     }
+
 }

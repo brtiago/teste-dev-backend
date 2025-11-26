@@ -1,15 +1,15 @@
 {
-  "name": "John Doe",
-  "birthDate": "1990-01-01",
-  "gender": "MALE",
-  "healthProblem": [
+  "nome": "John Doe",
+  "dataNascimento": "01-01-1995",
+  "genero": "MASCULINO",
+  "condicaoSaude": [
     {
-      "name": "CANCER"
+      "nome": "Diabetes",
+      "grau": "GRAU_2"
     },
     {
-      "name": "DEPRESSION"
+      "nome": "Arritmia",
+      "grau": "GRAU_1"
     }
-  ],
-  "dataCriacao": "12/11/2023",
-  "dataAtualizacao": "20/11/2025"
+  ]
 }

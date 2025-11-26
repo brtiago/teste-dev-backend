@@ -30,6 +30,10 @@ public class Cliente {
     private String nome;
 
     @Setter
+    @NotBlank
+    private String cpf;
+
+    @Setter
     @NotNull
     private LocalDate dataNascimento;
 
@@ -41,6 +45,7 @@ public class Cliente {
     private LocalDateTime dataAtualizacao;
     private int sd;
     private double score;
+    @Setter
     private boolean ativo;
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -55,6 +60,7 @@ public class Cliente {
 
     public Cliente(ClienteRequest request) {
         this.nome = request.nome();
+        this.cpf = request.cpf();
         this.dataNascimento = request.dataNascimento();
         this.genero = request.genero();
         this.condicaoSaude = request.condicaoSaude();
@@ -93,7 +99,4 @@ public class Cliente {
         this.dataAtualizacao = LocalDateTime.now();
     }
 
-    public void setAtivo(boolean b) {
-        this.ativo = b;
-    }
 }
