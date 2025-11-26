@@ -4,6 +4,7 @@ import com.olisaude.challenge.olisaudeapi.dto.ClienteRequest;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -31,6 +32,8 @@ public class Cliente {
 
     @Setter
     @NotBlank
+    @Size(min = 11, max = 11)
+    @Column(unique = true)
     private String cpf;
 
     @Setter

@@ -4,6 +4,7 @@ import com.olisaude.challenge.olisaudeapi.dto.ClienteRequest;
 import com.olisaude.challenge.olisaudeapi.dto.ClienteResponse;
 import com.olisaude.challenge.olisaudeapi.model.Cliente;
 import com.olisaude.challenge.olisaudeapi.repository.ClienteRepository;
+import com.olisaude.challenge.olisaudeapi.service.exception.ResourceAlreadyExists;
 import com.olisaude.challenge.olisaudeapi.service.exception.ResourceNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -23,6 +24,10 @@ public class ClienteService {
 
     @Transactional
     public ClienteResponse criar(@Valid ClienteRequest request) {
+
+        if(repository.existsByCpf(request.cpf())) {
+            throw new ResourceAlreadyExists("Já existe um cliente cadastrado com este CPF.");
+        }
         Cliente entidade = new Cliente(request);
         Cliente salvo = repository.save(entidade);
         return ClienteResponse.fromEntity(salvo);

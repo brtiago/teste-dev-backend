@@ -12,4 +12,6 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
     List<Cliente> findTop10ByOrderByScoreDesc();
 
     Optional<Cliente> findByCpf(String cpf);
+
+    boolean existsByCpf(String cpf);
 }
