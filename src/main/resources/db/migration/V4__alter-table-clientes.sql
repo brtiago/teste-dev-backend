@@ -1,0 +1,2 @@
+ALTER TABLE clientes
+ADD cpf VARCHAR(11);
