@@ -22,6 +22,6 @@ spring:
         format_sql: true
         ddl-auto: create-drop
 
-  server:
-    error:
-      include-stack-trace: never
+server:
+  error:
+    include-stacktrace: never
