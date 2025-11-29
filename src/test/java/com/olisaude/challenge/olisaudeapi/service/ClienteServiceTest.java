@@ -2,10 +2,7 @@ package com.olisaude.challenge.olisaudeapi.service;
 
 import com.olisaude.challenge.olisaudeapi.dto.ClienteRequest;
 import com.olisaude.challenge.olisaudeapi.dto.ClienteResponse;
-import com.olisaude.challenge.olisaudeapi.dto.ProblemaSaudeRequest;
 import com.olisaude.challenge.olisaudeapi.model.Cliente;
-import com.olisaude.challenge.olisaudeapi.model.GeneroCliente;
-import com.olisaude.challenge.olisaudeapi.model.GrauProblemaSaude;
 import com.olisaude.challenge.olisaudeapi.repository.ClienteRepository;
 import com.olisaude.challenge.olisaudeapi.service.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.Test;
@@ -13,9 +10,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 
-import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,16 +30,7 @@ class ClienteServiceTest {
     void buscarCpf_QuandoClienteExiste_DeveRetornarClienteResponse() {
         // Arrange
         String cpf = "12345678900";
-        ClienteRequest requestReal = new ClienteRequest(
-                "João da Silva",
-                cpf,
-                LocalDate.of(1995, 1, 1),
-                GeneroCliente.MASCULINO,
-                List.of(
-                        new ProblemaSaudeRequest("Diabetes", GrauProblemaSaude.GRAU_2),
-                        new ProblemaSaudeRequest("Problema Renal", GrauProblemaSaude.GRAU_1)
-                )
-        );
+        ClienteRequest requestReal = TestDataFactory.criarClienteRequestComCpf(cpf);
 
         Cliente cliente = new Cliente(requestReal);
         when(repository.findByCpf(cpf)).thenReturn(Optional.of(cliente));
@@ -73,6 +60,26 @@ class ClienteServiceTest {
 
         assertEquals("Cliente não encontrado: " + cpf, exception.getMessage());
         verify(repository).findByCpf(cpf);
+    }
+
+    @Test
+    void buscarId_QuandoClienteExiste_DeveRetornarClienteResponse() {
+        // Given
+        Long id = 1L;
+        ClienteRequest requestReal = TestDataFactory.criarClienteRequestValido();
+        Cliente cliente = new Cliente(requestReal);
+
+        // Define o ID usando ReflectionTestUtils
+        ReflectionTestUtils.setField(cliente, "id", id);
+
+        // When
+        when(repository.findById(id)).thenReturn(Optional.of(cliente));
+        ClienteResponse response = service.buscarId(id);
+
+        // Then
+        assertNotNull(response);
+        assertEquals(id, response.id());
+        verify(repository).findById(id);
     }
 
 }
