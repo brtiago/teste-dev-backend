@@ -82,4 +82,22 @@ class ClienteServiceTest {
         verify(repository).findById(id);
     }
 
+    @Test
+    void buscarId_QuandoClienteNaoExiste_DeveLancarExcecao() {
+        // Given
+        Long id = 99L;
+
+        // When
+        when(repository.findById(id)).thenReturn(Optional.empty());
+
+        // Then
+        ResourceNotFoundException exception = assertThrows(
+                ResourceNotFoundException.class,
+                () -> service.buscarId(id)
+        );
+
+        assertEquals("Cliente não encontrado: " + id, exception.getMessage());
+        verify(repository).findById(id);
+    }
+
 }
