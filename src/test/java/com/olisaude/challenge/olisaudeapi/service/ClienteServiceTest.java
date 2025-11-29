@@ -7,6 +7,7 @@ import com.olisaude.challenge.olisaudeapi.model.Cliente;
 import com.olisaude.challenge.olisaudeapi.model.GeneroCliente;
 import com.olisaude.challenge.olisaudeapi.model.GrauProblemaSaude;
 import com.olisaude.challenge.olisaudeapi.repository.ClienteRepository;
+import com.olisaude.challenge.olisaudeapi.service.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -55,4 +56,23 @@ class ClienteServiceTest {
         assertEquals(cpf, response.cpf());
         verify(repository).findByCpf(cpf);
     }
+
+    @Test
+    void buscarCpf_QuandoClienteNaoExiste_DeveLancarExcecao() {
+        // Given
+        String cpf = "99999999999";
+
+        // When
+        when(repository.findByCpf(cpf)).thenReturn(Optional.empty());
+
+        // Then
+        ResourceNotFoundException exception = assertThrows(
+                ResourceNotFoundException.class,
+                () -> service.buscarCpf(cpf)
+        );
+
+        assertEquals("Cliente não encontrado: " + cpf, exception.getMessage());
+        verify(repository).findByCpf(cpf);
+    }
+
 }
