@@ -2,6 +2,7 @@ package com.olisaude.challenge.olisaudeapi.service;
 
 import com.olisaude.challenge.olisaudeapi.dto.ClienteRequest;
 import com.olisaude.challenge.olisaudeapi.dto.ClienteResponse;
+import com.olisaude.challenge.olisaudeapi.dto.ProblemaSaudeRequest;
 import com.olisaude.challenge.olisaudeapi.model.Cliente;
 import com.olisaude.challenge.olisaudeapi.model.ProblemaSaude;
 import com.olisaude.challenge.olisaudeapi.repository.ClienteRepository;
@@ -9,6 +10,7 @@ import com.olisaude.challenge.olisaudeapi.service.exception.ResourceAlreadyExist
 import com.olisaude.challenge.olisaudeapi.service.exception.ResourceNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -23,27 +25,34 @@ public class ClienteService {
         this.repository = repository;
     }
 
+    private boolean clienteExiste(String cpf) {
+        return repository.existsByCpf(cpf);
+    }
+
     @Transactional
     public ClienteResponse criar(@Valid ClienteRequest request) {
-
-        if(repository.existsByCpf(request.cpf())) {
+        if(clienteExiste(request.cpf())) {
             throw new ResourceAlreadyExists("Já existe um cliente cadastrado com este CPF.");
         }
         Cliente entidade = new Cliente(request);
-        Cliente salvo = repository.save(entidade);
-        return ClienteResponse.fromEntity(salvo);
+        try {
+            Cliente salvo = repository.save(entidade);
+            return ClienteResponse.fromEntity(salvo);
+        } catch (DataIntegrityViolationException e) {
+            throw new ResourceAlreadyExists("Cliente já existe com este CPF." + request.cpf());
+        }
     }
 
     public ClienteResponse buscarId(Long id) {
-        Cliente clienteExistente = repository.findById(id)
+        return repository.findById(id)
+                .map(ClienteResponse::fromEntity)
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado: " + id));
-        return ClienteResponse.fromEntity(clienteExistente);
     }
 
     public ClienteResponse buscarCpf(String cpf) {
-        Cliente clienteExistente = repository.findByCpf(cpf)
+        return repository.findByCpf(cpf)
+                .map(ClienteResponse::fromEntity)
                 .orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado: " + cpf));
-        return ClienteResponse.fromEntity(clienteExistente);
     }
 
     public List<ClienteResponse> buscarTodos() {
@@ -64,7 +73,7 @@ public class ClienteService {
         cliente.setGenero(request.genero());
 
         List<ProblemaSaude> problemasSaude = request.problemaSaude().stream()
-                .map(problema -> new ProblemaSaude(problema.nome(), problema.grau()))
+                .map(ProblemaSaude::new)
                 .collect(Collectors.toList());
 
         cliente.setProblemaSaude(problemasSaude);
