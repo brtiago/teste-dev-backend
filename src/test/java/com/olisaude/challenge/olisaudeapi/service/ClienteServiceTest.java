@@ -12,6 +12,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -98,6 +101,46 @@ class ClienteServiceTest {
 
         assertEquals("Cliente não encontrado: " + id, exception.getMessage());
         verify(repository).findById(id);
+    }
+
+
+
+    @Test
+    void buscarMaiorRisco_QuandoExistemClientes_DeveRetornarListaTop10OrdenadosPorScore() {
+        // Given
+        List<Cliente> clientes = Arrays.asList(
+                criarClienteComScore(150),
+                criarClienteComScore(102),
+                criarClienteComScore(100)
+        );
+
+        when(repository.findTop10ByOrderByScoreDesc()).thenReturn(clientes);
+
+        // When
+        List<ClienteResponse> response = service.buscarMaiorRisco();
+
+        // Then
+        assertEquals(3, response.size());
+        verify(repository).findTop10ByOrderByScoreDesc();
+    }
+
+    @Test
+    void buscarMaiorRisco_QuandoNaoExistemClientes_DeveRetornarListaVazia() {
+        // Given
+        when(repository.findTop10ByOrderByScoreDesc()).thenReturn(List.of());
+
+        // When
+        List<ClienteResponse> response = service.buscarMaiorRisco();
+
+        // Then
+        assertTrue(response.isEmpty());
+        verify(repository).findTop10ByOrderByScoreDesc();
+    }
+
+    private Cliente criarClienteComScore (int score) {
+        Cliente cliente = new Cliente(TestDataFactory.criarClienteRequestValido());
+        ReflectionTestUtils.setField(cliente, "score", score);
+        return cliente;
     }
 
 }

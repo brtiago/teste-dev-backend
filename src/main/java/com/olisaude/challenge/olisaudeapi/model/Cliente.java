@@ -102,7 +102,7 @@ public class Cliente {
     public double calcularScore() {
         int sd = calcularSd();
         // score = (1 / (1 + eˆ-(-2.8 + sd ))) * 100
-        return (1.0 / (1.0 + Math.exp(2.8 - sd) )) * 100;
+        return (1.0 / (1.0 + Math.exp(-(-2.8 + sd)))) * 100;
     }
 
     public void setProblemaSaude(List<ProblemaSaude> problemaSaude) {
