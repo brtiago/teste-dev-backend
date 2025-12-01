@@ -1,7 +1,6 @@
 package com.olisaude.challenge.olisaudeapi.repository;
 
 import com.olisaude.challenge.olisaudeapi.model.Cliente;
-import com.olisaude.challenge.olisaudeapi.model.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
